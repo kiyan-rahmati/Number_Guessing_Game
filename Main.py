@@ -24,26 +24,30 @@ def main():
 
 
         # Generate the random number with level that givan from user
-        if level == 1:
-            rand_num = generate("Easy")
-        elif level == 2:
-            rand_num = generate("Medium")
-        elif level == 3:
-            rand_num = generate("Hard")
-        elif level == 4:
-            rand_num = generate("Iran")
-        else:
-            print("\nTry again, please")
-            continue
+        match level:
+            case 1:
+                rand_num = generate("Easy")
+            case 2:
+                rand_num = generate("Medium")
+            case 3:
+                rand_num = generate("Hard")
+            case 4:
+                rand_num = generate("Iran")
+            case _:
+                print("\nTry again, Please")
+                continue
+
         if rand_num is None:
             print("\nTry again, please")
             continue
 
-        value = game(rand_num)
-        if value is None:
-            break
-        elif value == "continue":
-            continue
+        res = game(rand_num)
+        match res:
+            case None:
+                break
+            case "continue":
+                continue
+
        
 def game(rand_num):
     # Start the game and ask the user to guess the number
@@ -91,14 +95,15 @@ def generate(level):
     """
     # Make random number with the title form of level if the level is valid
     if level.title() in ["Easy", "Medium", "Hard", "Iran"]:
-        if level == "Easy":
-            num = random.randint(0, 10)
-        elif level == "Medium":
-            num = random.randint(0, 100)
-        elif level == "Hard":
-            num = random.randint(0, 1000)
-        elif level == "Iran":
-            num = random.randint(-1000, 1000)
+        match level:
+            case "Easy":
+                num = random.randint(0, 10)
+            case "Medium":
+                num = random.randint(0, 100)
+            case "Hard":
+                num = random.randint(0, 1000)
+            case "Iran":
+                num = random.randint(-1000, 1000)
     else:
         return None 
 
