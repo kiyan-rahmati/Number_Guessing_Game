@@ -1,12 +1,12 @@
 import random
 
+score = 0
 
 def main():
     """
     Main function to run the guessing game.
     """
     # Ask the user to choose a level and generate a random number based on that level
-    score = 0
     while True:
         try:
             level = int(input("\nChose level: " \
@@ -39,41 +39,51 @@ def main():
             print("\nTry again, please")
             continue
 
-        # Start the game and ask the user to guess the number
-        mistake = 0
-        while mistake < 5:
-            try:
-                guess = int(input("Guess the number: "))
-            except ValueError:
-                print("Please enter a valid integer.")
-                continue
-            except KeyboardInterrupt:
-                print("\nGoodbye!")
-                break
-    
-            if is_answer(rand_num, guess):
-                print("You guessed it right!")
-                score += 1
-
-                # Ask the user if they want to play again
-                q = input("Do you want to play again? (y/n): ").strip().lower()
-                if q == "y":
-                    break
-                elif q == "n":
-                    print(f"Your score is: {score}")
-                    break                
-            else:
-                mistake += 1
-                if guess < rand_num:
-                    print("Your guess is too low.")
-                elif guess > rand_num:
-                    print("Your guess is too high.")
-
-        # If the user has used all their attempts, print the correct number and break the loop
-        if mistake == 5:
-            print(f"You have used all your attempts. The correct number was {rand_num}.")
+        value = game(rand_num)
+        if value is None:
             break
-                
+        elif value == "continue":
+            continue
+       
+def game(rand_num):
+    # Start the game and ask the user to guess the number
+    global score
+    mistake = 0
+    while mistake < 5:
+        try:
+            guess = int(input("Guess the number: "))
+        except ValueError:
+            print("Please enter a valid integer.")
+            continue
+        except KeyboardInterrupt:
+            print("\nGoodbye!")
+            return None 
+
+        if is_answer(rand_num, guess):
+            print("You guessed it right!")
+            score += 1
+
+            # Ask the user if they want to play again
+            q = input("Do you want to play again? (y/n): ").strip().lower()
+            if q == "y":
+                return "continue"
+            elif q == "n":
+                print(f"Your score is: {score}")
+                return None                
+        else:
+            mistake += 1
+            if guess < rand_num:
+                print("Your guess is too low.\n")
+                continue 
+            elif guess > rand_num:
+                print("Your guess is too high.\n")
+                continue
+
+    # If the user has used all their attempts, print the correct number and break the loop
+    if mistake == 5:
+        print(f"You have used all your attempts. The correct number was {rand_num}.")
+        return None
+                    
 
 def generate(level):
     """
