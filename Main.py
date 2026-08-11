@@ -1,3 +1,9 @@
+"""
+This is a simple number guessing game where the user can choose a difficulty level and try to guess a randomly generated number.
+The user has a limited number of attempts to guess the correct number, and the game provides feedback on whether the guess is too low or too high.
+The user can choose to play again after each round, and their score is tracked throughout the game.
+"""
+
 import random
 
 score = 0
@@ -8,38 +14,7 @@ def main():
     """
     # Ask the user to choose a level and generate a random number based on that level
     while True:
-        try:
-            level = int(input("\nChose level: " \
-            "\n1.Easy " \
-            "\n2.Medium " \
-            "\n3.Hard " \
-            "\n4.Iran " \
-            "\nPlease enter just the number(1-4): "))
-        except ValueError:
-            print("\nPlease enter a valid integer.")
-            continue
-        except KeyboardInterrupt:
-            print("\nGoodbye!")
-            break
-
-
-        # Generate the random number with level that givan from user
-        match level:
-            case 1:
-                rand_num = generate("Easy")
-            case 2:
-                rand_num = generate("Medium")
-            case 3:
-                rand_num = generate("Hard")
-            case 4:
-                rand_num = generate("Iran")
-            case _:
-                print("\nTry again, Please")
-                continue
-
-        if rand_num is None:
-            print("\nTry again, please")
-            continue
+        rand_num = generate_level()
 
         res = game(rand_num)
         match res:
@@ -50,6 +25,9 @@ def main():
 
        
 def game(rand_num):
+    """
+    Run the guessing game.
+    """
     # Start the game and ask the user to guess the number
     global score
     mistake = 0
@@ -89,7 +67,48 @@ def game(rand_num):
         return None
                     
 
-def generate(level):
+def generate_level():
+    """
+    Generate a random number based on the level chosen by the user.
+    """
+    while True:
+        try:
+            level = int(input("\nChose level: " \
+            "\n1.Easy " \
+            "\n2.Medium " \
+            "\n3.Hard " \
+            "\n4.Iran " \
+            "\nPlease enter just the number(1-4): "))
+        except ValueError:
+            print("\nPlease enter a valid integer.")
+            continue
+        except KeyboardInterrupt:
+            print("\nGoodbye!")
+            break
+
+
+        # Generate the random number with level that givan from user
+        match level:
+            case 1:
+                rand_num = generate_random_number("Easy")
+            case 2:
+                rand_num = generate_random_number("Medium")
+            case 3:
+                rand_num = generate_random_number("Hard")
+            case 4:
+                rand_num = generate_random_number("Iran")
+            case _:
+                print("\nTry again, Please")
+                continue
+
+        if rand_num is None:
+            print("\nTry again, please")
+            continue
+
+    return rand_num
+
+
+def generate_random_number(level):
     """
     Generate a random number based on the level chosen by the user.
     """
